@@ -6,6 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useMutation} from 'react-query';
 import {withDraw} from '../../services/withDraw/withDraw';
 import {withDrawValues} from '../../interfaces/users';
+import AlertModal from '../../components/AlertModal/AlertModal';
 
 function WithDrawScreen() {
   const [amount, setAmout] = useState<string>('');
@@ -14,9 +15,10 @@ function WithDrawScreen() {
     try {
       const withDrawVal: withDrawValues = {amount};
       console.log(withDrawVal);
+
       await mutation.mutateAsync(withDrawVal);
     } catch (error) {
-      console.error('Login failed', error);
+      console.error('WithDraw failed', error);
     }
   };
 
@@ -31,25 +33,56 @@ function WithDrawScreen() {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TextInput
-        maxLength={10}
-        style={styles.inputText}
-        placeholder="Enter amount"
-        placeholderTextColor="#003f5c"
-        keyboardType="decimal-pad"
-        returnKeyType="done"
-        onChangeText={text => setAmout(text)}
-      />
+    <>
+      <SafeAreaView style={styles.container}>
+        <TextInput
+          maxLength={10}
+          style={styles.inputText}
+          placeholder="Enter amount"
+          placeholderTextColor="#003f5c"
+          keyboardType="decimal-pad"
+          returnKeyType="done"
+          onChangeText={text => setAmout(text)}
+        />
 
-      <TouchableOpacity style={styles.withDrawBtn} onPress={onWithDraw}>
-        <Text style={styles.withDrawBtnText}>WITHDRAW </Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <TouchableOpacity style={styles.withDrawBtn} onPress={onWithDraw}>
+          <Text style={styles.withDrawBtnText}>WITHDRAW </Text>
+        </TouchableOpacity>
+        <AlertModal
+          content={{
+            showIcon: false,
+            showBackgroundIcon: false,
+            title: 'Success',
+            actions: [
+              {
+                title: 'Close',
+                type: 'cancel',
+                onPress: () => {
+                  //setVisibleModal(false);
+                },
+              },
+              {
+                title: 'ok',
+
+                onPress: () => {
+                  // setVisibleModal(false);
+                  // navigator.openMobileLogin();
+                },
+              },
+            ],
+          }}
+          modalVisible={false}
+        />
+      </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  anicontainer: {
+    backgroundColor: 'green',
+    flex: 1,
+  },
   inputText: {
     textAlign: 'center',
     minHeight: 100,

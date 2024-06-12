@@ -6,7 +6,12 @@ import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  const {data, isLoading, isError} = useQuery('posts', fetchTransactions);
+  // const {data, isLoading, isError} = useQuery('posts', fetchTransactions);
+  const {data, isLoading, isError} = useQuery(
+    ['fetchTransactions'],
+    fetchTransactions,
+  );
+  // useQuery(['hot-spot', payload], () => getHotSpotNotification(queryString));
 
   if (isLoading) {
     return <Text>Loading...</Text>;

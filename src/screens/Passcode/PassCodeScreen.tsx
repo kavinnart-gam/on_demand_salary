@@ -23,7 +23,10 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
   const [code, setCode] = useState<string[]>([]);
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.pinSubText}>Enter your secure four-digit code</Text>
+      <View style={styles.contentHeader}>
+        <Text style={styles.title}>Create PIN</Text>
+      </View>
+      <Text style={styles.pinSubText}>Enter your secure six-digit code</Text>
       <View style={styles.dialPadPinContainer}>
         {Array(pinLength)
           .fill(null)
@@ -92,6 +95,13 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
 export default PassCodeScreen;
 
 const styles = StyleSheet.create({
+  contentHeader: {
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   dialPadPinContainer: {
     flexDirection: 'row',
     marginBottom: 30,

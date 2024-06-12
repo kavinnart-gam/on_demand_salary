@@ -20,9 +20,7 @@ function VerifyOtpScreen({navigation}: any): React.JSX.Element {
       // console.log(phoneNumber);
       // await mutation.mutateAsync(loginFormValues);
       navigation.navigate('PassCode');
-    } catch (error) {
-      console.error('Login failed', error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -57,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   inputView: {

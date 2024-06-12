@@ -1,4 +1,4 @@
-import axios from 'axios';
+import {axios} from '../../utils';
 import {withDrawValues} from '../../interfaces/users';
 
 export const withDraw = async ({amount}: withDrawValues) => {
@@ -9,7 +9,7 @@ export const withDraw = async ({amount}: withDrawValues) => {
     console.log('response.data: ', response.data);
     return response.data;
   } catch (error) {
-    console.error('Error during login: ', error);
+    console.error('Error during withDraw: ', error);
     throw error;
   }
 };

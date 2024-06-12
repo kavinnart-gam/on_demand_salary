@@ -1,10 +1,14 @@
 import React from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {asyncStorage} from '../../utils';
+
 export default function SettingsScreen() {
   const onResetPin = async () => {};
 
-  const onLogOut = async () => {};
+  const onLogOut = async () => {
+    asyncStorage.removeDataToAsyncStorage({key: 'idToken'});
+  };
 
   return (
     <SafeAreaView style={styles.container}>

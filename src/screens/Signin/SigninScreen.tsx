@@ -7,28 +7,34 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-// import {useMutation} from 'react-query';
-// import {login} from '../../services/login/login';
-// import {LoginFormValues} from '../../interfaces/users';
+import {asyncStorage} from '../../utils';
+import {useMutation} from 'react-query';
+import {login} from '../../services/signin/signin';
+import {LoginFormValues} from '../../interfaces/users';
 
 function SigninScreen({navigation}: any) {
-  const [phoneNumber, setphoneNumber] = useState<string>('');
+  const [phoneNumber, setphoneNumber] = useState<string>('0838414994');
 
-  //   const mutation = useMutation(login, {
-  //     onSuccess: data => {
-  //       console.log(data);
-  //       navigation.navigate('Passcode');
-  //     },
-  //     onError: error => {
-  //       console.log(error);
-  //     },
-  //   });
+  const mutation = useMutation(login, {
+    onSuccess: data => {
+      console.log('token: ', data?.data?.token);
+
+      asyncStorage.setDataToAsyncStorage({
+        key: 'idToken',
+        value: data?.data?.token,
+      });
+      navigation.navigate('VerifyOtp');
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
   const onPressLogin = async () => {
-    // const loginFormValues: LoginFormValues = {phoneNumber};
+    const loginFormValues: LoginFormValues = {phoneNumber};
     try {
       console.log(phoneNumber);
-      // await mutation.mutateAsync(loginFormValues);
-      navigation.navigate('VerifyOtp');
+      await mutation.mutateAsync(loginFormValues);
+      //navigation.navigate('VerifyOtp');
       //VerifyOtp
     } catch (error) {
       console.error('Login failed', error);
