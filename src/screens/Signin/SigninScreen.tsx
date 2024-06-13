@@ -13,7 +13,7 @@ import {AuthContext} from '../../navigator/AppNavigator';
 
 function SigninScreen({navigation}: any) {
   const {login, isLoading} = useContext(AuthContext);
-  const [phoneNumber, setphoneNumber] = useState<string>('0838414994');
+  const [phoneNumber, setphoneNumber] = useState<string>('');
 
   const onPressLogin = async () => {
     const response = await login(phoneNumber);
@@ -29,7 +29,6 @@ function SigninScreen({navigation}: any) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Text style={styles.title}> Login Screen</Text> */}
       {isLoading ? (
         <ActivityIndicator size="large" color="#000" />
       ) : (
@@ -43,10 +42,14 @@ function SigninScreen({navigation}: any) {
               keyboardType="phone-pad"
               textContentType="telephoneNumber"
               returnKeyType="done"
+              maxLength={10}
               onChangeText={text => setphoneNumber(text)}
             />
           </View>
-          <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
+          <TouchableOpacity
+            disabled={phoneNumber.length === 0}
+            style={styles.loginBtn}
+            onPress={onPressLogin}>
             <Text style={styles.loginText}>LOGIN </Text>
           </TouchableOpacity>
         </>
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    color: 'white',
+    color: '#000',
   },
   loginBtn: {
     width: '80%',

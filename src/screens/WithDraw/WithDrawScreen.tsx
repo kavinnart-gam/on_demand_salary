@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {withDraw} from '../../services/withDraw';
-import AlertModal from '../../components/AlertModal/AlertModal';
+import AlertModal from '../../components/AlertModal';
 import {AuthContext} from '../../navigator/AppNavigator';
 import Icon from 'react-native-vector-icons/AntDesign';
 function WithDrawScreen() {
@@ -23,10 +23,7 @@ function WithDrawScreen() {
     setLoading(true);
     try {
       setErrorMessage('');
-      const response = await withDraw({amount});
-
-      console.log('response.data: ', response);
-
+      const response = await withDraw(amount);
       if (response?.message === 'success') {
         setVisible(true);
       } else if (response?.error) {
@@ -75,7 +72,7 @@ function WithDrawScreen() {
               )}
 
               <Text style={styles.textModal}>
-                {errorMessage ?? 'Withdraw successful'}
+                {errorMessage ? errorMessage : 'Withdraw successful'}
               </Text>
             </AlertModal>
           </>

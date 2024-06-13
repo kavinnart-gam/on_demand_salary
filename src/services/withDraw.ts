@@ -1,7 +1,6 @@
 import {axios} from '../utils';
-import {withDrawValues} from '../interfaces/users';
 
-export const withDraw = async ({amount}: withDrawValues) => {
+export const withDraw = async (amount: string) => {
   try {
     const response = await axios.post('/api/v1/user/withdraw', {
       amount: amount,

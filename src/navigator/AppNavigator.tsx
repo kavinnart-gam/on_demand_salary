@@ -12,7 +12,7 @@ import {setToken} from '../slices/authSlice';
 import PassCodeSetUpScreen from '../screens/Passcode/PassCodeSetUpScreen';
 
 const Stack = createNativeStackNavigator();
-export const AuthContext = createContext();
+export const AuthContext = createContext<any>({});
 
 export default function AppNavigator() {
   const dispatch = useDispatch();
@@ -29,8 +29,6 @@ export default function AppNavigator() {
     });
 
     dispatch(setToken(token));
-
-    console.log('token !!!!! ', token);
 
     setState({
       ...state,
@@ -49,7 +47,6 @@ export default function AppNavigator() {
     setState({
       ...state,
       isLoading: false,
-      //isAuth: true,
       ...response,
     });
 
@@ -76,7 +73,6 @@ export default function AppNavigator() {
   }, []);
 
   return (
-    // <SafeAreaProvider>
     <AuthContext.Provider
       value={{
         ...state,
