@@ -54,7 +54,6 @@ export default function AppNavigator() {
   };
 
   const logout = () => {
-    //fakeApi.logout();
     setState({
       ...state,
       isAuth: false,
