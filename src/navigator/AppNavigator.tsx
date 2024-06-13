@@ -5,8 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import VerifyOtpScreen from '../screens/VerifyOtp/VerifyOtpScreen';
 import PassCodeScreen from '../screens/Passcode/PassCodeScreen';
 import Bottomtab from './BottomTabNavigator';
-import {signin} from '../services/signin/signin';
-import {LoginFormValues} from '../interfaces/users';
+import {signin} from '../services/signin';
 import {asyncStorage, common} from '../utils';
 import {useDispatch} from 'react-redux';
 import {setToken} from '../slices/authSlice';
@@ -39,7 +38,7 @@ export default function AppNavigator() {
     });
   };
 
-  const login = async (phoneNumber: LoginFormValues) => {
+  const login = async (phoneNumber: string) => {
     setState({
       ...state,
       isLoading: true,

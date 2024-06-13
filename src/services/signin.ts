@@ -1,7 +1,6 @@
-import {axios} from '../../utils';
-import {LoginFormValues} from '../../interfaces/users';
+import {axios} from '../utils';
 
-export const signin = async (phoneNumber: LoginFormValues) => {
+export const signin = async (phoneNumber: string) => {
   try {
     const response = await axios.post('/api/v1/signin', {
       phone: phoneNumber,

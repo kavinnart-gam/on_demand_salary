@@ -1,5 +1,5 @@
-import {axios} from '../../utils';
-import {withDrawValues} from '../../interfaces/users';
+import {axios} from '../utils';
+import {withDrawValues} from '../interfaces/users';
 
 export const withDraw = async ({amount}: withDrawValues) => {
   try {

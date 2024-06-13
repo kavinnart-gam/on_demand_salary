@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {Text, View, FlatList, ActivityIndicator} from 'react-native';
-import {fetchAll} from '../../services/transactions/transactions';
+import {fetchAll} from '../../services/transactions';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Avatar} from 'react-native-elements';

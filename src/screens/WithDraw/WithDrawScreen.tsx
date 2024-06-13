@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {withDraw} from '../../services/withDraw/withDraw';
+import {withDraw} from '../../services/withDraw';
 import AlertModal from '../../components/AlertModal/AlertModal';
 import {AuthContext} from '../../navigator/AppNavigator';
 import Icon from 'react-native-vector-icons/AntDesign';
