@@ -16,8 +16,8 @@ const Stack = createNativeStackNavigator();
 export const AuthContext = createContext();
 
 export default function AppNavigator() {
-  const navigationRef = useRef(null);
   const dispatch = useDispatch();
+  const navigationRef = useRef(null);
   const [state, setState] = useState({
     user: null,
     isAuth: false,

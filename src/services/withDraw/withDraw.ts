@@ -6,7 +6,7 @@ export const withDraw = async ({amount}: withDrawValues) => {
     const response = await axios.post('/api/v1/user/withdraw', {
       amount: amount,
     });
-    console.log('response.data: ', response.data);
+
     return response.data;
   } catch (error) {
     console.error('Error during withDraw: ', error);

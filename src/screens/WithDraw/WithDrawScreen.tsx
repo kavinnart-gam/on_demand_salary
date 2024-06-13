@@ -1,97 +1,95 @@
-// function SigninScreen({navigation}: any) {}
-
 import React, {useState, useContext} from 'react';
-import {StyleSheet, TouchableOpacity, Text, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useMutation} from 'react-query';
 import {withDraw} from '../../services/withDraw/withDraw';
-import {withDrawValues} from '../../interfaces/users';
 import AlertModal from '../../components/AlertModal/AlertModal';
-import {selectToken} from '../../slices/authSlice';
-import {useSelector} from 'react-redux';
 import {AuthContext} from '../../navigator/AppNavigator';
-import {common} from '../../utils';
-
+import Icon from 'react-native-vector-icons/AntDesign';
 function WithDrawScreen() {
   const {logout} = useContext(AuthContext);
-  const token = useSelector(selectToken);
   const [amount, setAmout] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const onWithDraw = async () => {
+    setLoading(true);
     try {
-      const withDrawVal: withDrawValues = {amount};
-      console.log(withDrawVal);
+      setErrorMessage('');
+      const response = await withDraw({amount});
 
-      if (!common.isExpireToken(token)) {
-        await mutation.mutateAsync(withDrawVal);
-      } else {
-        logout();
+      console.log('response.data: ', response);
+
+      if (response?.message === 'success') {
+        setVisible(true);
+      } else if (response?.error) {
+        setErrorMessage(response?.error);
+        setVisible(true);
       }
+      setLoading(false);
     } catch (error) {
-      console.error('WithDraw failed', error);
+      logout();
+      console.error('Withdrawal failed:', error);
     }
   };
-
-  const mutation = useMutation(withDraw, {
-    onSuccess: data => {
-      console.log(data);
-      //   navigation.navigate('Passcode');
-    },
-    onError: error => {
-      console.log(error);
-    },
-  });
 
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <Text style={[styles.h2, styles.spaceContent]}>
-          AMOUNT FOR WITHDRAW
-        </Text>
-        <TextInput
-          maxLength={10}
-          style={styles.inputText}
-          placeholder="Enter amount"
-          placeholderTextColor="#003f5c"
-          keyboardType="decimal-pad"
-          returnKeyType="done"
-          onChangeText={text => setAmout(text)}
-        />
+        {loading ? (
+          <View style={styles.loadingcontainer}>
+            <ActivityIndicator size="large" color="#000" />
+          </View>
+        ) : (
+          <>
+            <Text style={[styles.h2, styles.spaceContent]}>
+              AMOUNT FOR WITHDRAW
+            </Text>
+            <TextInput
+              maxLength={10}
+              style={styles.inputText}
+              placeholder="Enter amount"
+              placeholderTextColor="#003f5c"
+              keyboardType="decimal-pad"
+              returnKeyType="done"
+              onChangeText={text => setAmout(text)}
+            />
 
-        <TouchableOpacity style={styles.withDrawBtn} onPress={onWithDraw}>
-          <Text style={styles.withDrawBtnText}>WITHDRAW </Text>
-        </TouchableOpacity>
-        <AlertModal
-          content={{
-            showIcon: false,
-            showBackgroundIcon: false,
-            title: 'Success',
-            actions: [
-              {
-                title: 'Close',
-                type: 'cancel',
-                onPress: () => {
-                  //setVisibleModal(false);
-                },
-              },
-              {
-                title: 'ok',
+            <TouchableOpacity style={styles.withDrawBtn} onPress={onWithDraw}>
+              <Text style={styles.withDrawBtnText}>WITHDRAW </Text>
+            </TouchableOpacity>
+            <AlertModal
+              modalVisible={visible}
+              onClose={() => setVisible(false)}>
+              {errorMessage ? (
+                <Icon name="closecircleo" size={150} color="red" />
+              ) : (
+                <Icon name="checkcircleo" size={150} color="#2AAA8A" />
+              )}
 
-                onPress: () => {
-                  // setVisibleModal(false);
-                  // navigator.openMobileLogin();
-                },
-              },
-            ],
-          }}
-          modalVisible={false}
-        />
+              <Text style={styles.textModal}>
+                {errorMessage ?? 'Withdraw successful'}
+              </Text>
+            </AlertModal>
+          </>
+        )}
       </SafeAreaView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  textModal: {
+    marginVertical: 20,
+    fontSize: 20,
+  },
   spaceContent: {
     marginVertical: 10,
   },
@@ -134,6 +132,12 @@ const styles = StyleSheet.create({
   },
   containerContent: {
     margin: 20,
+  },
+  loadingcontainer: {
+    flex: 1,
+    backgroundColor: '#debbb0',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

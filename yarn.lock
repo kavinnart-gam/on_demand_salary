@@ -2894,7 +2894,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-native-vector-icons@npm:^6.4.18":
+"@types/react-native-vector-icons@npm:^6.4.18, @types/react-native-vector-icons@npm:^6.4.6":
   version: 6.4.18
   resolution: "@types/react-native-vector-icons@npm:6.4.18"
   dependencies:
@@ -3971,6 +3971,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cliui@npm:^7.0.2":
+  version: 7.0.4
+  resolution: "cliui@npm:7.0.4"
+  dependencies:
+    string-width: ^4.2.0
+    strip-ansi: ^6.0.0
+    wrap-ansi: ^7.0.0
+  checksum: ce2e8f578a4813806788ac399b9e866297740eecd4ad1823c27fd344d78b22c5f8597d548adbcc46f0573e43e21e751f39446c5a5e804a12aace402b7a315d7f
+  languageName: node
+  linkType: hard
+
 "cliui@npm:^8.0.1":
   version: 8.0.1
   resolution: "cliui@npm:8.0.1"
@@ -4014,7 +4025,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-convert@npm:^1.9.0":
+"color-convert@npm:^1.9.0, color-convert@npm:^1.9.3":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
   dependencies:
@@ -4046,13 +4057,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-string@npm:^1.9.0":
+"color-string@npm:^1.6.0, color-string@npm:^1.9.0":
   version: 1.9.1
   resolution: "color-string@npm:1.9.1"
   dependencies:
     color-name: ^1.0.0
     simple-swizzle: ^0.2.2
   checksum: c13fe7cff7885f603f49105827d621ce87f4571d78ba28ef4a3f1a104304748f620615e6bf065ecd2145d0d9dad83a3553f52bb25ede7239d18e9f81622f1cc5
+  languageName: node
+  linkType: hard
+
+"color@npm:^3.1.2":
+  version: 3.2.1
+  resolution: "color@npm:3.2.1"
+  dependencies:
+    color-convert: ^1.9.3
+    color-string: ^1.6.0
+  checksum: f81220e8b774d35865c2561be921f5652117638dcda7ca4029262046e37fc2444ac7bbfdd110cf1fd9c074a4ee5eda8f85944ffbdda26186b602dd9bb05f6400
   languageName: node
   linkType: hard
 
@@ -5606,7 +5627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.0":
+"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -6988,6 +7009,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: da27515dc5230eb1140ba65ff8de3613649620e8656b19a6270afe4866b7bd461d9ba2ac8a48dcc57f7adac4ee80e1de9f965d89d4d81a0ad52bb3eec2609644
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -7002,7 +7030,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
+"lodash@npm:^4.17.15, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -7885,11 +7913,13 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.2
     react-native-animatable: ^1.4.0
+    react-native-elements: ^3.4.3
     react-native-gesture-handler: ^2.16.2
     react-native-otp-inputs: ^7.4.0
     react-native-reanimated: ^3.12.0
     react-native-safe-area-context: ^4.10.4
     react-native-screens: ^3.31.1
+    react-native-vector-icons: ^10.1.0
     react-query: ^3.39.3
     react-redux: ^9.1.2
     react-test-renderer: 18.2.0
@@ -7932,6 +7962,15 @@ __metadata:
     is-docker: ^2.0.0
     is-wsl: ^2.1.1
   checksum: 3333900ec0e420d64c23b831bc3467e57031461d843c801f569b2204a1acc3cd7b3ec3c7897afc9dde86491dfa289708eb92bba164093d8bd88fb2c231843c91
+  languageName: node
+  linkType: hard
+
+"opencollective-postinstall@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "opencollective-postinstall@npm:2.0.3"
+  bin:
+    opencollective-postinstall: index.js
+  checksum: 0a68c5cef135e46d11e665d5077398285d1ce5311c948e8327b435791c409744d4a6bb9c55bd6507fb5f2ef34b0ad920565adcdaf974cbdae701aead6f32b396
   languageName: node
   linkType: hard
 
@@ -8391,6 +8430,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-elements@npm:^3.4.3":
+  version: 3.4.3
+  resolution: "react-native-elements@npm:3.4.3"
+  dependencies:
+    "@types/react-native-vector-icons": ^6.4.6
+    color: ^3.1.2
+    deepmerge: ^4.2.2
+    hoist-non-react-statics: ^3.3.2
+    lodash.isequal: ^4.5.0
+    opencollective-postinstall: ^2.0.3
+    react-native-ratings: 8.0.4
+    react-native-size-matters: ^0.3.1
+  peerDependencies:
+    react-native-safe-area-context: ">= 3.0.0"
+    react-native-vector-icons: ">7.0.0"
+  checksum: e055c18b85527366d7b9e76139828fe3d006a7a8c11f81b165e43b4175c0d4b15eef6308679dd596d33f0813a512c27cb993d6ca49e00c56fcb15a0918d96c6c
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^2.16.2":
   version: 2.16.2
   resolution: "react-native-gesture-handler@npm:2.16.2"
@@ -8415,6 +8473,18 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 4c1398e4ee0969fd55edb58ff89f7fd23fe8b22aab6e0b96ed07e2a7744c9fa98f3e5f1ffdf019af2a2cbc5505eab1f15c13f020ce278400dc11cddbd6e9b7aa
+  languageName: node
+  linkType: hard
+
+"react-native-ratings@npm:8.0.4":
+  version: 8.0.4
+  resolution: "react-native-ratings@npm:8.0.4"
+  dependencies:
+    lodash: ^4.17.15
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: e420dab914a4941722482719e46f8837b51927a11d9861e2f581bac651910ea08419e9a1a2dd4aa072520439c119d6894f0d8d763db3dcc28a15b73072b9eb76
   languageName: node
   linkType: hard
 
@@ -8458,6 +8528,30 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 1fc61cf7a223b3ef1c8000e74416c8953561c5fa0861557da43659db62a640e37fb51fbdc35dae810a665881a7aa9eeaf1873e90f67404b4dda53a672464a7fe
+  languageName: node
+  linkType: hard
+
+"react-native-size-matters@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "react-native-size-matters@npm:0.3.1"
+  peerDependencies:
+    react-native: "*"
+  checksum: f8fa7f301d97dae96df029771445648b4778562c982b3d0625ae78cb397b35efd0e2b482b240531dad68fde0d18cc23f5181a3904259c6e1ff155823ac34996d
+  languageName: node
+  linkType: hard
+
+"react-native-vector-icons@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "react-native-vector-icons@npm:10.1.0"
+  dependencies:
+    prop-types: ^15.7.2
+    yargs: ^16.1.1
+  bin:
+    fa-upgrade.sh: bin/fa-upgrade.sh
+    fa5-upgrade: bin/fa5-upgrade.sh
+    fa6-upgrade: bin/fa6-upgrade.sh
+    generate-icon: bin/generate-icon.js
+  checksum: c1e1d7c7ccc110e99caaed4d57324d5331dfa91817183350d2fd4df16d2302e7363da1f7a2b87011da3936b77aac3a7bf8ee11844dd8786b8b7dbc6553494866
   languageName: node
   linkType: hard
 
@@ -10252,6 +10346,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yargs-parser@npm:^20.2.2":
+  version: 20.2.9
+  resolution: "yargs-parser@npm:20.2.9"
+  checksum: 8bb69015f2b0ff9e17b2c8e6bfe224ab463dd00ca211eece72a4cd8a906224d2703fb8a326d36fdd0e68701e201b2a60ed7cf81ce0fd9b3799f9fe7745977ae3
+  languageName: node
+  linkType: hard
+
 "yargs-parser@npm:^21.1.1":
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
@@ -10275,6 +10376,21 @@ __metadata:
     y18n: ^4.0.0
     yargs-parser: ^18.1.2
   checksum: 40b974f508d8aed28598087720e086ecd32a5fd3e945e95ea4457da04ee9bdb8bdd17fd91acff36dc5b7f0595a735929c514c40c402416bbb87c03f6fb782373
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^16.1.1":
+  version: 16.2.0
+  resolution: "yargs@npm:16.2.0"
+  dependencies:
+    cliui: ^7.0.2
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    require-directory: ^2.1.1
+    string-width: ^4.2.0
+    y18n: ^5.0.5
+    yargs-parser: ^20.2.2
+  checksum: b14afbb51e3251a204d81937c86a7e9d4bdbf9a2bcee38226c900d00f522969ab675703bee2a6f99f8e20103f608382936034e64d921b74df82b63c07c5e8f59
   languageName: node
   linkType: hard
 

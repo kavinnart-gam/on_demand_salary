@@ -76,6 +76,9 @@ instance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       //  console.log('call the refresh token api here');
       // Handle 401 error, e.g., redirect to login or refresh token
+    } else if (error.response && error.response.status === 400) {
+      return {data: {error: 'creditBalance is not available'}};
+      //creditBalance is not available
     }
 
     //
