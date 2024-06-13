@@ -1,4 +1,5 @@
 import {jwtDecode} from 'jwt-decode';
+import {Platform} from 'react-native';
 
 const isExpireToken = (token: string): boolean => {
   if (token) {
@@ -10,6 +11,14 @@ const isExpireToken = (token: string): boolean => {
   return true;
 };
 
+const urlConfig = (): string => {
+  const iosUrl = 'http://localhost:3000';
+  const androidUrl = 'http://10.0.2.2:3000';
+  const url = Platform.OS === 'ios' ? iosUrl : androidUrl;
+  return url;
+};
+
 export default {
   isExpireToken,
+  urlConfig,
 };

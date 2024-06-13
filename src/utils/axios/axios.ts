@@ -1,5 +1,6 @@
 import axios from 'axios';
 import asyncStorage from '../asyncStorage';
+import common from '../common';
 // import {jwtDecode} from 'jwt-decode';
 // import {store} from '../../../store';
 // import {increment} from '../../slices/authSlice';
@@ -7,7 +8,7 @@ import asyncStorage from '../asyncStorage';
 // import {updateExpireToken} from '../../slices/authSlice';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: common.urlConfig(),
   headers: {
     'Content-Type': 'application/json',
   },

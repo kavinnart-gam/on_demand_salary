@@ -12,7 +12,6 @@ function VerifyOtpScreen({navigation}: any): React.JSX.Element {
     const pinCode = await asyncStorage.getDataFromAsyncStorage({
       key: 'pincode',
     });
-
     if (otpCode.length === 6) {
       setTimeout(() => {
         if (pinCode) {
