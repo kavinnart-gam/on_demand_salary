@@ -1,14 +1,20 @@
 // function SigninScreen({navigation}: any) {}
 
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, TouchableOpacity, Text, TextInput} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useMutation} from 'react-query';
 import {withDraw} from '../../services/withDraw/withDraw';
 import {withDrawValues} from '../../interfaces/users';
 import AlertModal from '../../components/AlertModal/AlertModal';
+import {selectToken} from '../../slices/authSlice';
+import {useSelector} from 'react-redux';
+import {AuthContext} from '../../navigator/AppNavigator';
+import {common} from '../../utils';
 
 function WithDrawScreen() {
+  const {logout} = useContext(AuthContext);
+  const token = useSelector(selectToken);
   const [amount, setAmout] = useState<string>('');
 
   const onWithDraw = async () => {
@@ -16,7 +22,11 @@ function WithDrawScreen() {
       const withDrawVal: withDrawValues = {amount};
       console.log(withDrawVal);
 
-      await mutation.mutateAsync(withDrawVal);
+      if (!common.isExpireToken(token)) {
+        await mutation.mutateAsync(withDrawVal);
+      } else {
+        logout();
+      }
     } catch (error) {
       console.error('WithDraw failed', error);
     }
@@ -35,6 +45,9 @@ function WithDrawScreen() {
   return (
     <>
       <SafeAreaView style={styles.container}>
+        <Text style={[styles.h2, styles.spaceContent]}>
+          AMOUNT FOR WITHDRAW
+        </Text>
         <TextInput
           maxLength={10}
           style={styles.inputText}
@@ -79,6 +92,10 @@ function WithDrawScreen() {
 }
 
 const styles = StyleSheet.create({
+  spaceContent: {
+    marginVertical: 10,
+  },
+  h2: {fontSize: 16, fontWeight: '700', textAlign: 'left'},
   anicontainer: {
     backgroundColor: 'green',
     flex: 1,
@@ -114,6 +131,9 @@ const styles = StyleSheet.create({
   },
   withDrawBtnText: {
     color: 'white',
+  },
+  containerContent: {
+    margin: 20,
   },
 });
 

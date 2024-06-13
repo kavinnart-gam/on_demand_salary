@@ -19,7 +19,7 @@ function VerifyOtpScreen({navigation}: any): React.JSX.Element {
     try {
       // console.log(phoneNumber);
       // await mutation.mutateAsync(loginFormValues);
-      navigation.navigate('PassCode');
+      navigation.navigate('PassCodeSetUp');
     } catch (error) {}
   };
 

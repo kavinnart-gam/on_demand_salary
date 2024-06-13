@@ -1,6 +1,10 @@
 import axios from 'axios';
 import asyncStorage from '../asyncStorage';
-import {jwtDecode} from 'jwt-decode';
+// import {jwtDecode} from 'jwt-decode';
+// import {store} from '../../../store';
+// import {increment} from '../../slices/authSlice';
+
+// import {updateExpireToken} from '../../slices/authSlice';
 
 const instance = axios.create({
   baseURL: 'http://localhost:3000',
@@ -23,39 +27,42 @@ const instance = axios.create({
 //   }
 // };
 
-const _checkTokenExpired = (token: string): boolean => {
-  try {
-    const decoded = jwtDecode(token);
-    const exp = decoded.exp;
+// const isTokenExpired = (token: string): boolean => {
+//   try {
+//     const decodedToken = jwtDecode(token);
+//     const exp = decodedToken?.exp ?? 0; // Default to 0 if exp is undefined
+//     const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+//     return exp < currentTime;
+//   } catch (error) {
+//     console.error('Error decoding token:', error);
+//     return true; // Assume expired if decoding fails (e.g., invalid token)
+//   }
+// };
 
-    if (!exp) {
-      // No expiration time in token
-      return false;
-    }
-
-    const currentTime = Math.floor(Date.now() / 1000);
-    return currentTime > exp;
-  } catch (error) {
-    // Invalid token
-    return true;
-  }
-};
-
-const _getToken = async () => {
+const getToken = async () => {
   const accessToken = (await asyncStorage.getDataFromAsyncStorage({
     key: 'idToken',
   })) as string;
-  console.log('+++ accessToken +++ ', accessToken);
-  return 'Bearer ' + accessToken;
+  return accessToken;
 };
 
 instance.interceptors.request.use(
   async config => {
-    const token = await _getToken();
-    console.log('+++ Expire +++ ', _checkTokenExpired(token));
+    const token = await getToken();
 
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = 'Bearer ' + token;
+
+      // const isExpired = isTokenExpired(token);
+      // if (!isExpired) {
+      //   config.headers.Authorization = `Bearer ${token}`;
+      // } else {
+      //   //   navigation.navigate('SignInPage');
+      //   store.dispatch(increment());
+      //   console.log(
+      //     'Token expired, triggering refresh or redirecting to login.',
+      //   );
+      // }
     }
     return config;
   },
@@ -65,11 +72,13 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => response,
   error => {
-    console.log('API ERROR', error.response);
+    //console.log('API ERROR', error.response);
     if (error.response && error.response.status === 401) {
-      console.log('call the refresh token api here');
+      //  console.log('call the refresh token api here');
       // Handle 401 error, e.g., redirect to login or refresh token
     }
+
+    //
     return Promise.reject(error);
   },
 );

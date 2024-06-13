@@ -1,7 +1,7 @@
 import {axios} from '../../utils';
 import {LoginFormValues} from '../../interfaces/users';
 
-export const login = async ({phoneNumber}: LoginFormValues) => {
+export const signin = async (phoneNumber: LoginFormValues) => {
   try {
     const response = await axios.post('/api/v1/signin', {
       phone: phoneNumber,

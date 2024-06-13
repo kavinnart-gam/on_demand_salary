@@ -1,25 +1,109 @@
-import React from 'react';
+import React, {createContext, useState, useEffect, useRef} from 'react';
 import SigninScreen from '../screens/Signin/SigninScreen';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import VerifyOtpScreen from '../screens/VerifyOtp/VerifyOtpScreen';
 import PassCodeScreen from '../screens/Passcode/PassCodeScreen';
 import Bottomtab from './BottomTabNavigator';
+import {signin} from '../services/signin/signin';
+import {LoginFormValues} from '../interfaces/users';
+import {asyncStorage, common} from '../utils';
+import {useDispatch} from 'react-redux';
+import {setToken} from '../slices/authSlice';
+import PassCodeSetUpScreen from '../screens/Passcode/PassCodeSetUpScreen';
 
 const Stack = createNativeStackNavigator();
+export const AuthContext = createContext();
 
 export default function AppNavigator() {
+  const navigationRef = useRef(null);
+  const dispatch = useDispatch();
+  const [state, setState] = useState({
+    user: null,
+    isAuth: false,
+    isLoading: false,
+  });
+
+  const checkAuth = async () => {
+    const token = await asyncStorage.getDataFromAsyncStorage({
+      key: 'idToken',
+    });
+
+    dispatch(setToken(token));
+
+    console.log('token !!!!! ', token);
+
+    setState({
+      ...state,
+      isAuth: !common.isExpireToken(token ?? ''),
+    });
+  };
+
+  const login = async (phoneNumber: LoginFormValues) => {
+    setState({
+      ...state,
+      isLoading: true,
+    });
+
+    const response = await signin(phoneNumber);
+
+    setState({
+      ...state,
+      isLoading: false,
+      //isAuth: true,
+      ...response,
+    });
+
+    return response;
+  };
+
+  const logout = () => {
+    //fakeApi.logout();
+    setState({
+      ...state,
+      isAuth: false,
+    });
+  };
+
+  const updateAuth = () => {
+    setState({
+      ...state,
+      isAuth: true,
+    });
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
+    // <SafeAreaProvider>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        login,
+        logout,
+        updateAuth,
+      }}>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="SignIn" component={SigninScreen} />
-          <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
-          <Stack.Screen name="PassCode" component={PassCodeScreen} />
-          <Stack.Screen name="Bottomtab" component={Bottomtab} />
+          {state.isAuth ? (
+            <>
+              <Stack.Screen name="PassCode" component={PassCodeScreen} />
+              <Stack.Screen name="Bottomtab" component={Bottomtab} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen name="SignIn" component={SigninScreen} />
+              <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
+              <Stack.Screen
+                name="PassCodeSetUp"
+                component={PassCodeSetUpScreen}
+              />
+            </>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
-    </SafeAreaProvider>
+    </AuthContext.Provider>
   );
 }

@@ -1,20 +1,26 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {asyncStorage} from '../../utils';
+import {AuthContext} from '../../navigator/AppNavigator';
 
 export default function SettingsScreen() {
-  const onResetPin = async () => {};
+  const {logout} = useContext(AuthContext);
+  // const onResetPin = async () => {
+  //   navigation.navigate('PassCodeSetUp');
+  //   //
+  // };
 
   const onLogOut = async () => {
-    asyncStorage.removeDataToAsyncStorage({key: 'idToken'});
+    await logout();
+    await asyncStorage.removeDataToAsyncStorage({key: 'idToken'});
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.containerBtn} onPress={onResetPin}>
+      {/* <TouchableOpacity style={styles.containerBtn} onPress={onResetPin}>
         <Text style={styles.BtnText}>RESET PIN </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.containerBtn} onPress={onLogOut}>
         <Text style={styles.BtnText}>LOGOUT </Text>
       </TouchableOpacity>

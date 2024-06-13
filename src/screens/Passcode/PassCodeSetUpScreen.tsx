@@ -8,6 +8,9 @@ import {
   Text,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {AuthContext} from '../../navigator/AppNavigator';
+import {selectToken} from '../../slices/authSlice';
+import {useSelector} from 'react-redux';
 import {asyncStorage} from '../../utils';
 
 const {width} = Dimensions.get('window');
@@ -20,42 +23,36 @@ const pinLength = 6;
 const pinContainerSize = width / 2;
 const pinSize = pinContainerSize / pinLength;
 
-function PassCodeScreen({navigation}: any): React.JSX.Element {
+function PassCodeSetUpScreen({navigation}: any): React.JSX.Element {
   const [code, setCode] = useState<string[]>([]);
-  const [incorrect, setIncorrect] = useState<string>('');
+  const {updateAuth} = useContext(AuthContext);
 
-  const getPin = async () => {
-    const pinCode = await asyncStorage.getDataFromAsyncStorage({
+  const setPassCode = async () => {
+    console.log('!!!!! setPassCode: ', code.join(''));
+    await asyncStorage.setDataToAsyncStorage({
       key: 'pincode',
+      value: code.join(''),
     });
-    console.log('getPin() ', pinCode);
-    return pinCode ?? '';
+    await updateAuth();
+
+    navigation.navigate('Bottomtab');
   };
 
-  const verifyPin = async () => {
-    const pin = await getPin();
-    console.log('verifyPin', pin);
-    if (pin === code.join('')) {
-      setIncorrect('');
-      navigation.navigate('Bottomtab');
-    } else {
-      setIncorrect('Incorrect PIN');
-    }
-  };
+  const VerifyPin = async () => {};
 
   useEffect(() => {
     if (code.length === pinLength) {
-      verifyPin();
+      setPassCode();
     }
+    VerifyPin();
   }, [code]);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentHeader}>
-        <Text style={styles.title}>Signin PIN</Text>
+        <Text style={styles.title}>Create PIN</Text>
       </View>
-
-      <Text style={styles.pinSubText}>{incorrect}</Text>
+      <Text style={styles.pinSubText}>Enter your secure six-digit code</Text>
       <View style={styles.dialPadPinContainer}>
         {Array(pinLength)
           .fill(null)
@@ -82,6 +79,20 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
                 if (item === 'x') {
                   setCode(prev => prev.slice(0, -1));
                 } else {
+                  // if (code.length === pinLength - 1) {
+                  //   // flow setup pin
+                  //   if (!pin) {
+                  //     await updateAuth();
+                  //     console.log('pincode: ', code);
+
+                  //     // await asyncStorage.setDataToAsyncStorage({
+                  //     //   key: 'pincode',
+                  //     //   value: code,
+                  //     // });
+                  //   }
+
+                  //   //  navigation.navigate('Bottomtab');
+                  // }
                   setCode(prev => [...prev, item.toString()]);
                 }
               }}>
@@ -106,7 +117,7 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
     </SafeAreaView>
   );
 }
-export default PassCodeScreen;
+export default PassCodeSetUpScreen;
 
 const styles = StyleSheet.create({
   contentHeader: {
@@ -145,7 +156,7 @@ const styles = StyleSheet.create({
   pinSubText: {
     fontSize: 18,
     fontWeight: 'medium',
-    color: 'red',
+    color: '#000',
     marginVertical: 30,
   },
   dialPadContainer: {

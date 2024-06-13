@@ -1,64 +1,56 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {asyncStorage} from '../../utils';
-import {useMutation} from 'react-query';
-import {login} from '../../services/signin/signin';
-import {LoginFormValues} from '../../interfaces/users';
+import {AuthContext} from '../../navigator/AppNavigator';
 
 function SigninScreen({navigation}: any) {
+  const {login, isLoading} = useContext(AuthContext);
   const [phoneNumber, setphoneNumber] = useState<string>('0838414994');
 
-  const mutation = useMutation(login, {
-    onSuccess: data => {
-      console.log('token: ', data?.data?.token);
+  const onPressLogin = async () => {
+    const response = await login(phoneNumber);
 
-      asyncStorage.setDataToAsyncStorage({
+    if (response?.data?.token) {
+      await asyncStorage.setDataToAsyncStorage({
         key: 'idToken',
-        value: data?.data?.token,
+        value: response?.data?.token,
       });
       navigation.navigate('VerifyOtp');
-    },
-    onError: error => {
-      console.log(error);
-    },
-  });
-  const onPressLogin = async () => {
-    const loginFormValues: LoginFormValues = {phoneNumber};
-    try {
-      console.log(phoneNumber);
-      await mutation.mutateAsync(loginFormValues);
-      //navigation.navigate('VerifyOtp');
-      //VerifyOtp
-    } catch (error) {
-      console.error('Login failed', error);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       {/* <Text style={styles.title}> Login Screen</Text> */}
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Mobile Phone Number"
-          placeholderTextColor="#003f5c"
-          dataDetectorTypes="phoneNumber"
-          keyboardType="phone-pad"
-          textContentType="telephoneNumber"
-          returnKeyType="done"
-          onChangeText={text => setphoneNumber(text)}
-        />
-      </View>
-      <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
-        <Text style={styles.loginText}>LOGIN </Text>
-      </TouchableOpacity>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#000" />
+      ) : (
+        <>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.inputText}
+              placeholder="Mobile Phone Number"
+              placeholderTextColor="#003f5c"
+              dataDetectorTypes="phoneNumber"
+              keyboardType="phone-pad"
+              textContentType="telephoneNumber"
+              returnKeyType="done"
+              onChangeText={text => setphoneNumber(text)}
+            />
+          </View>
+          <TouchableOpacity style={styles.loginBtn} onPress={onPressLogin}>
+            <Text style={styles.loginText}>LOGIN </Text>
+          </TouchableOpacity>
+        </>
+      )}
     </SafeAreaView>
   );
 }
