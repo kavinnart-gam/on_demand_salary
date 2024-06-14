@@ -9,8 +9,10 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
   const [code, setCode] = useState<string[]>([]);
   const [incorrect, setIncorrect] = useState<string>('');
   const [headertext, setheaderText] = useState<string>('Signin PIN');
+  const [localPin, setLocalPin] = useState<string>('');
 
   const setPassCode = async () => {
+    // set up pin to local storage
     await asyncStorage.setDataToAsyncStorage({
       key: 'pincode',
       value: code.join(''),
@@ -26,12 +28,15 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
   };
 
   const verifyPin = async () => {
-    const pin = await getPin();
-    if (pin) {
-      if (pin === code.join('')) {
+    // check if have pin from local storage then goto signin with pin
+    // no pin goto setup pin flow
+    if (localPin) {
+      // check sign in pin corect ?
+      if (localPin === code.join('')) {
         setIncorrect('');
         navigation.navigate('Bottomtab');
       } else {
+        // not correct show error message
         setIncorrect('Incorrect PIN');
       }
     } else {
@@ -42,6 +47,9 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
 
   const setUpHeaderText = async () => {
     const pin = await getPin();
+    setLocalPin(pin);
+    // check if have pin from local storage then show "Signin PIN"
+    // no pin show "Setup PIN"
     setheaderText(pin ? 'Signin PIN' : 'Setup PIN');
   };
 

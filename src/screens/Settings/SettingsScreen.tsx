@@ -1,17 +1,17 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {AuthContext} from '../../navigator/AppNavigator';
+import {useAuth} from '../../context/AuthContext';
 
 export default function SettingsScreen() {
-  const {logout} = useContext(AuthContext);
+  const {onLogout} = useAuth();
   // const onResetPin = async () => {
   //   navigation.navigate('PassCodeSetUp');
   //   //
   // };
 
   const onLogOut = async () => {
-    await logout();
+    onLogout!();
   };
 
   return (

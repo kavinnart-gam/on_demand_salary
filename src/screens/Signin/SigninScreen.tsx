@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,33 +8,24 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {asyncStorage} from '../../utils';
 import common from '../../utils/common';
-import {AuthContext} from '../../navigator/AppNavigator';
-import {setToken} from '../../slices/authSlice';
-import {useDispatch} from 'react-redux';
+import {useAuth} from '../../context/AuthContext';
 
 function SigninScreen({navigation}: any) {
-  const dispatch = useDispatch();
-  const {login, isLoading} = useContext(AuthContext);
   const [phoneNumber, setphoneNumber] = useState<string>('');
+  const {onSignin, authState} = useAuth();
 
   const onPressLogin = async () => {
-    const response = await login(phoneNumber);
+    const response = await onSignin!(phoneNumber);
 
     if (response?.data?.token) {
-      await asyncStorage.setDataToAsyncStorage({
-        key: 'idToken',
-        value: response?.data?.token,
-      });
-      dispatch(setToken(response?.data?.token));
       navigation.navigate('VerifyOtp');
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading ? (
+      {authState?.isLoading ? (
         <ActivityIndicator size="large" color="#000" />
       ) : (
         <>

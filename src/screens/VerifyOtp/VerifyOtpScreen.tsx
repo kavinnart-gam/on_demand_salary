@@ -1,20 +1,21 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import OtpInputs from 'react-native-otp-inputs';
 import {asyncStorage} from '../../utils';
-import {AuthContext} from '../../navigator/AppNavigator';
+import {useAuth} from '../../context/AuthContext';
 
 function VerifyOtpScreen({navigation}: any): React.JSX.Element {
-  const {updateAuth} = useContext(AuthContext);
+  const {onUpdateAuth} = useAuth();
 
   const handleChange = async (otpCode: string) => {
     const pinCode = await asyncStorage.getDataFromAsyncStorage({
       key: 'pincode',
     });
+
     if (otpCode.length === 6) {
       setTimeout(() => {
-        updateAuth();
+        onUpdateAuth!();
         if (pinCode) {
           navigation.navigate('Bottomtab');
         } else {
