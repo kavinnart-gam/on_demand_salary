@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {asyncStorage} from '../../utils';
 import {AuthContext} from '../../navigator/AppNavigator';
 
 export default function SettingsScreen() {
@@ -13,7 +12,6 @@ export default function SettingsScreen() {
 
   const onLogOut = async () => {
     await logout();
-    await asyncStorage.removeDataToAsyncStorage({key: 'idToken'});
   };
 
   return (

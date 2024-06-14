@@ -18,7 +18,14 @@ const urlConfig = (): string => {
   return url;
 };
 
+const testID = (id: string | undefined): any => ({
+  accessible: true,
+  accessibilityLabel: id,
+  testID: id,
+});
+
 export default {
   isExpireToken,
   urlConfig,
+  testID,
 };

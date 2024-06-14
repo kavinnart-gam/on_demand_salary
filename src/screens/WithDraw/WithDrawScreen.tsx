@@ -8,33 +8,58 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {withDraw} from '../../services/withDraw';
+import withDraw from '../../services/withDraw';
 import AlertModal from '../../components/AlertModal';
 import {AuthContext} from '../../navigator/AppNavigator';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {common} from '../../utils';
+import {useSelector} from 'react-redux';
+import {selectAvailableAmount, selectToken} from '../../slices/authSlice';
 function WithDrawScreen() {
   const {logout} = useContext(AuthContext);
   const [amount, setAmout] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const vailableAmount = useSelector(selectAvailableAmount);
+  const idToken = useSelector(selectToken);
 
   const onWithDraw = async () => {
     setLoading(true);
     try {
-      setErrorMessage('');
-      const response = await withDraw(amount);
-      if (response?.message === 'success') {
-        setVisible(true);
-      } else if (response?.error) {
-        setErrorMessage(response?.error);
-        setVisible(true);
+      if (common.isExpireToken(idToken)) {
+        logout();
+      } else {
+        if (Number(amount) > vailableAmount / 2) {
+          setErrorMessage(
+            'Amount must less than or equal to ' + vailableAmount,
+          );
+          setVisible(true);
+        } else {
+          setErrorMessage('');
+          const response = await withDraw(amount);
+          if (response?.message === 'success') {
+            setVisible(true);
+          } else if (response?.error) {
+            setErrorMessage(response?.error);
+            setVisible(true);
+          }
+        }
       }
+
       setLoading(false);
     } catch (error) {
       logout();
       console.error('Withdrawal failed:', error);
     }
+  };
+
+  const getIcon = (): React.ReactElement => {
+    return errorMessage ? (
+      <Icon name="closecircleo" size={150} color="red" />
+    ) : (
+      <Icon name="checkcircleo" size={150} color="#2AAA8A" />
+    );
   };
 
   return (
@@ -57,20 +82,27 @@ function WithDrawScreen() {
               keyboardType="decimal-pad"
               returnKeyType="done"
               onChangeText={text => setAmout(text)}
+              {...common.testID('INPUT_TXT_WITH_DRAW')}
             />
 
-            <TouchableOpacity style={styles.withDrawBtn} onPress={onWithDraw}>
+            <TouchableOpacity
+              {...common.testID('BTN_WITH_DRAW')}
+              disabled={amount.length === 0}
+              style={[
+                styles.withDrawBtn,
+                amount.length === 0 && styles.disableBtn,
+              ]}
+              onPress={onWithDraw}>
               <Text style={styles.withDrawBtnText}>WITHDRAW </Text>
             </TouchableOpacity>
+
             <AlertModal
               modalVisible={visible}
-              onClose={() => setVisible(false)}>
-              {errorMessage ? (
-                <Icon name="closecircleo" size={150} color="red" />
-              ) : (
-                <Icon name="checkcircleo" size={150} color="#2AAA8A" />
-              )}
-
+              onClose={() => {
+                setVisible(false);
+                setAmout('');
+              }}>
+              {getIcon()}
               <Text style={styles.textModal}>
                 {errorMessage ? errorMessage : 'Withdraw successful'}
               </Text>
@@ -91,16 +123,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   h2: {fontSize: 16, fontWeight: '700', textAlign: 'left'},
-  anicontainer: {
-    backgroundColor: 'green',
-    flex: 1,
-  },
   inputText: {
     textAlign: 'center',
     minHeight: 100,
     minWidth: '80%',
     fontSize: 28,
-    backgroundColor: '#ffff',
+    backgroundColor: '#ffffff',
     borderRadius: 25,
   },
   container: {
@@ -110,13 +138,18 @@ const styles = StyleSheet.create({
   },
   withdrawContainer: {
     padding: 40,
-    backgroundColor: '#ffff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
+  },
+  disableBtn: {
+    backgroundColor: '#E5EAEF',
+    borderColor: '#6A6A6A',
+    borderWidth: 1,
   },
   withDrawBtn: {
     width: '80%',
-    backgroundColor: 'black',
-    color: 'white',
+    backgroundColor: '#000000',
+    color: '#ffffff',
     borderRadius: 25,
     height: 50,
     alignItems: 'center',
@@ -125,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   withDrawBtnText: {
-    color: 'white',
+    color: '#ffffff',
   },
   containerContent: {
     margin: 20,

@@ -86,21 +86,6 @@ const clearAll = async () => {
   console.log('Done.');
 };
 
-// const setTokenDataToStorageAndSetAxiosHeader = async (
-//   accessToken: string,
-//   refreshToken: string,
-//   tokenExpireAt: string,
-// ): Promise<void> => {
-//   await setDataToAsyncStorage({key: 'accessToken', value: accessToken});
-//   await setDataToAsyncStorage({key: 'refreshToken', value: refreshToken});
-//   await setDataToAsyncStorage({
-//     key: 'tokenExpireAt',
-//     value: tokenExpireAt,
-//   });
-//   axios.defaults.headers.common['access-token'] = accessToken;
-//   axios.defaults.headers.common.Authorization = 'Bearer ' + accessToken;
-// };
-
 export default {
   setDataToAsyncStorage,
   setObjectToAsyncStorage,
@@ -108,5 +93,4 @@ export default {
   getObjectFromAsyncStorage,
   removeDataToAsyncStorage,
   clearAll,
-  //setTokenDataToStorageAndSetAxiosHeader,
 };

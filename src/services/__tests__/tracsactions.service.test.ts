@@ -1,5 +1,5 @@
 import axios from '../../utils/axios';
-import {fetchAll, fetchTransactions, fetchUser} from '../transactions';
+import {fetchTransactions, fetchUser} from '../transactions';
 
 jest.mock('../../utils/axios');
 

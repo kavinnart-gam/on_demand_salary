@@ -5,8 +5,9 @@ import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Avatar} from 'react-native-elements';
 import {AuthContext} from '../../navigator/AppNavigator';
-import {useDispatch} from 'react-redux';
-import {setAvailableAmount} from '../../slices/authSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectToken, setAvailableAmount} from '../../slices/authSlice';
+import {common} from '../../utils';
 
 interface User {
   firstname: string;
@@ -30,22 +31,27 @@ export default function HomeScreen() {
   const [transactions, setTransactions] = useState<Transaction | null>(null);
   const [users, setUses] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const idToken = useSelector(selectToken);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchAll();
-        dispatch(setAvailableAmount(transactions?.available ?? 0));
-        setTransactions(response?.transactions?.data);
-        setUses(response?.user?.data);
-        setLoading(false);
+        if (common.isExpireToken(idToken)) {
+          logout();
+        } else {
+          const response = await fetchAll();
+          dispatch(setAvailableAmount(transactions?.available ?? 0));
+          setTransactions(response?.transactions?.data);
+          setUses(response?.user?.data);
+          setLoading(false);
+        }
       } catch (error) {
-        logout();
+        await logout();
         console.error('Error fetching data:', error);
       }
     };
     fetchData();
-  }, [logout, dispatch, transactions?.available]);
+  }, [logout, dispatch, transactions?.available, idToken]);
 
   return (
     <SafeAreaView style={styles.container}>

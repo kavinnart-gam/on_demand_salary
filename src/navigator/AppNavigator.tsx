@@ -53,7 +53,8 @@ export default function AppNavigator() {
     return response;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await asyncStorage.removeDataToAsyncStorage({key: 'idToken'});
     setState({
       ...state,
       isAuth: false,
@@ -80,7 +81,8 @@ export default function AppNavigator() {
         updateAuth,
       }}>
       <NavigationContainer ref={navigationRef}>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator
+          screenOptions={{headerShown: false, gestureEnabled: false}}>
           {state.isAuth ? (
             <>
               <Stack.Screen name="PassCode" component={PassCodeScreen} />

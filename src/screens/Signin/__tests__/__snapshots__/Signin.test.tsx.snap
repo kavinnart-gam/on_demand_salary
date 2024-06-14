@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signin Sign screen is match snapshot 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#debbb0",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <View
+    style={
+      {
+        "backgroundColor": "white",
+        "borderRadius": 25,
+        "height": 50,
+        "justifyContent": "center",
+        "marginBottom": 20,
+        "padding": 20,
+        "width": "80%",
+      }
+    }
+  >
+    <TextInput
+      accessibilityLabel="INPUT_TXT_MOBILE_NUMBER"
+      accessible={true}
+      dataDetectorTypes="phoneNumber"
+      keyboardType="phone-pad"
+      maxLength={10}
+      onChangeText={[Function]}
+      placeholder="Mobile Phone Number"
+      placeholderTextColor="#003f5c"
+      returnKeyType="done"
+      style={
+        {
+          "color": "#000000",
+          "height": 50,
+        }
+      }
+      testID="INPUT_TXT_MOBILE_NUMBER"
+      textContentType="telephoneNumber"
+    />
+  </View>
+  <View
+    accessibilityLabel="BTN_SIGN_IN"
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": true,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#E5EAEF",
+        "borderColor": "#6A6A6A",
+        "borderRadius": 25,
+        "borderWidth": 1,
+        "color": "#FFFFFF",
+        "height": 50,
+        "justifyContent": "center",
+        "marginBottom": 10,
+        "marginTop": 40,
+        "opacity": 1,
+        "width": "80%",
+      }
+    }
+    testID="BTN_SIGN_IN"
+  >
+    <Text
+      style={
+        {
+          "color": "#FFFFFF",
+        }
+      }
+    >
+      LOGIN 
+    </Text>
+  </View>
+</RNCSafeAreaView>
+`;
