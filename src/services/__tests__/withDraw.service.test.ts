@@ -1,5 +1,5 @@
 import axios from '../../utils/axios';
-import withDraw from '../withDraw';
+import withDraw from '../withdraw';
 
 jest.mock('../../utils/axios');
 

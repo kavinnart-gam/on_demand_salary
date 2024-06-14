@@ -8,6 +8,15 @@ const pinLength = 6;
 function PassCodeScreen({navigation}: any): React.JSX.Element {
   const [code, setCode] = useState<string[]>([]);
   const [incorrect, setIncorrect] = useState<string>('');
+  const [headertext, setheaderText] = useState<string>('Signin PIN');
+
+  const setPassCode = async () => {
+    await asyncStorage.setDataToAsyncStorage({
+      key: 'pincode',
+      value: code.join(''),
+    });
+    navigation.navigate('Bottomtab');
+  };
 
   const getPin = async () => {
     const pinCode = await asyncStorage.getDataFromAsyncStorage({
@@ -18,15 +27,26 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
 
   const verifyPin = async () => {
     const pin = await getPin();
-    if (pin === code.join('')) {
-      setIncorrect('');
-      navigation.navigate('Bottomtab');
+    if (pin) {
+      if (pin === code.join('')) {
+        setIncorrect('');
+        navigation.navigate('Bottomtab');
+      } else {
+        setIncorrect('Incorrect PIN');
+      }
     } else {
-      setIncorrect('Incorrect PIN');
+      // set up pin //
+      setPassCode();
     }
   };
 
+  const setUpHeaderText = async () => {
+    const pin = await getPin();
+    setheaderText(pin ? 'Signin PIN' : 'Setup PIN');
+  };
+
   useEffect(() => {
+    setUpHeaderText();
     if (code.length === pinLength) {
       verifyPin();
     }
@@ -35,7 +55,7 @@ function PassCodeScreen({navigation}: any): React.JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentHeader}>
-        <Text style={styles.title}>Signin PIN</Text>
+        <Text style={styles.title}>{headertext}</Text>
       </View>
 
       <Text style={styles.pinSubText}>{incorrect}</Text>

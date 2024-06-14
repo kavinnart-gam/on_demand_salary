@@ -1,10 +1,10 @@
 import {render, fireEvent} from '@testing-library/react-native';
-import WithDrawScreen from '../WithDrawScreen';
+import WithDrawScreen from '../WithdrawScreen';
 
 jest.mock('../../../utils/axios');
 jest.mock('../../../services/withDraw');
 
-describe('WithDraw', () => {
+describe('Withdraw', () => {
   it('should be render correctly', () => {
     const result = render(<WithDrawScreen />);
     const inputWithDraw = result.getByTestId('INPUT_TXT_WITH_DRAW');

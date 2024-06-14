@@ -9,7 +9,6 @@ import {signin} from '../services/signin';
 import {asyncStorage, common} from '../utils';
 import {useDispatch} from 'react-redux';
 import {setToken} from '../slices/authSlice';
-import PassCodeSetUpScreen from '../screens/Passcode/PassCodeSetUpScreen';
 
 const Stack = createNativeStackNavigator();
 export const AuthContext = createContext<any>({});
@@ -92,10 +91,6 @@ export default function AppNavigator() {
             <>
               <Stack.Screen name="SignIn" component={SigninScreen} />
               <Stack.Screen name="VerifyOtp" component={VerifyOtpScreen} />
-              <Stack.Screen
-                name="PassCodeSetUp"
-                component={PassCodeSetUpScreen}
-              />
             </>
           )}
         </Stack.Navigator>

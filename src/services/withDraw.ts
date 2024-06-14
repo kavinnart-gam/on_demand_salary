@@ -1,6 +1,6 @@
 import {axios} from '../utils';
 
-const withDraw = async (amount: string) => {
+const withdraw = async (amount: string) => {
   try {
     const response = await axios.post('/api/v1/user/withdraw', {
       amount: amount,
@@ -13,4 +13,4 @@ const withDraw = async (amount: string) => {
   }
 };
 
-export default withDraw;
+export default withdraw;

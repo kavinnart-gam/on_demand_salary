@@ -14,11 +14,11 @@ function VerifyOtpScreen({navigation}: any): React.JSX.Element {
     });
     if (otpCode.length === 6) {
       setTimeout(() => {
+        updateAuth();
         if (pinCode) {
-          updateAuth();
           navigation.navigate('Bottomtab');
         } else {
-          navigation.navigate('PassCodeSetUp');
+          navigation.navigate('PassCode');
         }
       }, 100);
     }

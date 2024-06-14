@@ -8,14 +8,14 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import withDraw from '../../services/withDraw';
+import withDraw from '../../services/withdraw';
 import AlertModal from '../../components/AlertModal';
 import {AuthContext} from '../../navigator/AppNavigator';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {common} from '../../utils';
 import {useSelector} from 'react-redux';
 import {selectAvailableAmount, selectToken} from '../../slices/authSlice';
-function WithDrawScreen() {
+function WithdrawScreen() {
   const {logout} = useContext(AuthContext);
   const [amount, setAmout] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -171,4 +171,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WithDrawScreen;
+export default WithdrawScreen;
