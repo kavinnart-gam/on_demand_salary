@@ -8,14 +8,15 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import withDraw from '../../services/withdraw';
 import AlertModal from '../../components/AlertModal';
 import {AuthContext} from '../../navigator/AppNavigator';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {common} from '../../utils';
 import {useSelector} from 'react-redux';
 import {selectAvailableAmount, selectToken} from '../../slices/authSlice';
-function WithdrawScreen() {
+import withdraw from '../../services/withdraw';
+
+export default function WithdrawScreen() {
   const {logout} = useContext(AuthContext);
   const [amount, setAmout] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +25,7 @@ function WithdrawScreen() {
   const vailableAmount = useSelector(selectAvailableAmount);
   const idToken = useSelector(selectToken);
 
-  const onWithDraw = async () => {
+  const onWithdraw = async () => {
     setLoading(true);
     try {
       if (common.isExpireToken(idToken)) {
@@ -37,7 +38,8 @@ function WithdrawScreen() {
           setVisible(true);
         } else {
           setErrorMessage('');
-          const response = await withDraw(amount);
+
+          const response = await withdraw(amount);
           if (response?.message === 'success') {
             setVisible(true);
           } else if (response?.error) {
@@ -92,7 +94,7 @@ function WithdrawScreen() {
                 styles.withDrawBtn,
                 amount.length === 0 && styles.disableBtn,
               ]}
-              onPress={onWithDraw}>
+              onPress={onWithdraw}>
               <Text style={styles.withDrawBtnText}>WITHDRAW </Text>
             </TouchableOpacity>
 
@@ -170,5 +172,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default WithdrawScreen;
