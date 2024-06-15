@@ -1,3 +1,6 @@
+## Describe the project
+https://docs.google.com/document/d/1Y7B2XM8jZdWGlgWpoHrUEz5xJAEZLuPzXDjQgVmH0YY/edit?usp=sharing
+
 ## Step 1: How to use
 
 1.Download or clone this repo.
