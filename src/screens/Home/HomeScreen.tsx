@@ -4,8 +4,8 @@ import {fetchAll} from '../../services/transactions';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Avatar} from 'react-native-elements';
-import {useDispatch, useSelector} from 'react-redux';
-import {selectToken, setAvailableAmount} from '../../slices/authSlice';
+import {useDispatch} from 'react-redux';
+import {setAvailableAmount} from '../../slices/authSlice';
 import {common} from '../../utils';
 import {useAuth} from '../../context/AuthContext';
 
@@ -30,18 +30,19 @@ export default function HomeScreen() {
   const [transactions, setTransactions] = useState<Transaction | null>(null);
   const [users, setUses] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const idToken = useSelector(selectToken);
-  const {onLogout} = useAuth();
+  const {onLogout, authState} = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // if token expire force logout
-        if (common.isExpireToken(idToken)) {
+        if (common.isExpireToken(authState?.token ?? '')) {
           onLogout!();
         } else {
           const response = await fetchAll();
-          dispatch(setAvailableAmount(transactions?.available ?? 0));
+          dispatch(
+            setAvailableAmount(response?.transactions?.data?.available ?? 0),
+          );
           setTransactions(response?.transactions?.data);
           setUses(response?.user?.data);
           setLoading(false);
@@ -52,7 +53,7 @@ export default function HomeScreen() {
       }
     };
     fetchData();
-  }, [onLogout, dispatch, transactions?.available, idToken]);
+  }, [onLogout, dispatch, transactions?.available, authState?.token]);
 
   return (
     <SafeAreaView style={styles.container}>

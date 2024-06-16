@@ -2,8 +2,6 @@ import React, {useContext, useEffect} from 'react';
 import {createContext, useState} from 'react';
 import asyncStorage from '../utils/asyncStorage';
 import {axios, common} from '../utils';
-import {useDispatch} from 'react-redux';
-import {setToken} from '../slices/authSlice';
 
 interface AuthProps {
   authState?: {
@@ -23,7 +21,6 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({children}: any) => {
-  const dispatch = useDispatch();
   const [authState, setAuthState] = useState<{
     token: string | null;
     authenticated: boolean | null;
@@ -68,8 +65,6 @@ export const AuthProvider = ({children}: any) => {
         key: 'idToken',
         value: response?.data?.data?.token,
       });
-
-      dispatch(setToken(response?.data?.data?.token));
 
       return response?.data;
     } catch (error) {

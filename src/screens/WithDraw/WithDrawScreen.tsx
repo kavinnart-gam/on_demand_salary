@@ -9,27 +9,27 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AlertModal from '../../components/AlertModal';
-import {AuthContext} from '../../navigator/AppNavigator';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {common} from '../../utils';
 import {useSelector} from 'react-redux';
-import {selectAvailableAmount, selectToken} from '../../slices/authSlice';
+import {selectAvailableAmount} from '../../slices/authSlice';
 import withdraw from '../../services/withdraw';
+import {useAuth} from '../../context/AuthContext';
 
 export default function WithdrawScreen() {
-  const {logout} = useContext(AuthContext);
   const [amount, setAmout] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const vailableAmount = useSelector(selectAvailableAmount);
-  const idToken = useSelector(selectToken);
+  const {authState, onLogout} = useAuth();
 
   const onWithdraw = async () => {
     setLoading(true);
     try {
-      if (common.isExpireToken(idToken)) {
-        logout();
+      console.log('vailableAmount: ', vailableAmount);
+      if (common.isExpireToken(authState?.token ?? '')) {
+        onLogout!();
       } else {
         if (Number(amount) > vailableAmount / 2) {
           setErrorMessage(
@@ -51,7 +51,7 @@ export default function WithdrawScreen() {
 
       setLoading(false);
     } catch (error) {
-      logout();
+      onLogout!();
       console.error('Withdrawal failed:', error);
     }
   };
