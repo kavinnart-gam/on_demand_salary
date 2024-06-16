@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import OtpInputs from 'react-native-otp-inputs';
-import {asyncStorage} from '../../utils';
+import {asyncStorage, common} from '../../utils';
 import {useAuth} from '../../context/AuthContext';
 
 function VerifyOtpScreen({navigation}: any): React.JSX.Element {
@@ -27,19 +27,21 @@ function VerifyOtpScreen({navigation}: any): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.contentHeader}>
+      <View style={styles.contentHeader} {...common.testID('TXT_VERIFY_OTP')}>
         <Text style={styles.title}>Verify OTP</Text>
       </View>
-      <OtpInputs
-        handleChange={code => {
-          handleChange(code);
-        }}
-        numberOfInputs={6}
-        autofillFromClipboard={false}
-        keyboardType="phone-pad"
-        returnKeyLabel="done"
-        inputStyles={styles.otpInput}
-      />
+      <View {...common.testID('INPUT_TXT_OTP')}>
+        <OtpInputs
+          handleChange={code => {
+            handleChange(code);
+          }}
+          numberOfInputs={6}
+          autofillFromClipboard={false}
+          keyboardType="phone-pad"
+          returnKeyLabel="done"
+          inputStyles={styles.otpInput}
+        />
+      </View>
     </SafeAreaView>
   );
 }

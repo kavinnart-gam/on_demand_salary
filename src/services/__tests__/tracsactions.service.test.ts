@@ -29,4 +29,27 @@ describe('transactions services', () => {
       expect(axios.get).toHaveBeenCalledWith('/api/v1/user/transactions');
     }
   });
+
+  it('fetches user data successfully', async () => {
+    const mockData = {name: 'John Doe', email: 'johndoe@example.com'};
+    axios.get.mockResolvedValueOnce({data: mockData}); // Mock successful response
+
+    const userData = await fetchUser();
+
+    expect(axios.get).toHaveBeenCalledWith('/api/v1/user/profile'); // Assert API call
+    expect(userData).toEqual(mockData); // Assert returned data
+  });
+
+  it('handles errors gracefully', async () => {
+    const mockError = new Error('Network Error');
+    axios.get.mockRejectedValueOnce(mockError); // Mock error response
+
+    expect.assertions(1); // Specify the number of assertions (optional)
+
+    try {
+      await fetchUser();
+    } catch (error) {
+      expect(error).toEqual(mockError); // Assert caught error
+    }
+  });
 });

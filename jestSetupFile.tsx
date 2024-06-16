@@ -13,6 +13,10 @@ jest.mock('react-native-vector-icons/AntDesign', () => ({
   Icon: jest.fn(),
 }));
 
+jest.mock('react-native-vector-icons/MaterialCommunityIcons', () => ({
+  Icon: jest.fn(),
+}));
+
 jest.mock('@react-navigation/native-stack', () => ({
   createNativeStackNavigator: jest.fn(() => ({
     navigation: {
